@@ -1,6 +1,11 @@
 import React, { Component } from 'react'
 
 class LoginRegister extends Component {
+
+    handleLogIn() {
+        localStorage.setItem("token", "abcdasadsfe")
+    }
+
     render() {
         return (
             <div className="absoluteCenter">
@@ -24,7 +29,7 @@ class LoginRegister extends Component {
                         </div>
                         <div className="form-group row">
                             <div className="col-sm-12 text-center">
-                                <button type="submit" className="btn btn-primary">Sign in</button>
+                                <button type="submit" onClick={this.handleLogIn} className="btn btn-primary">Sign in</button>
                             </div>
                         </div>
                         <div className="form-group row">

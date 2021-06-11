@@ -14,7 +14,7 @@ class App extends Component {
 
 
     render() {
-        localStorage.setItem("token", "abcdasadsfe")
+        // localStorage.setItem("token", "abcdasadsfe")
         let token = localStorage.getItem("token");
         console.log(token);
         // token == "1234ABCD" ? <Autentificated /> : <Unautentificated />

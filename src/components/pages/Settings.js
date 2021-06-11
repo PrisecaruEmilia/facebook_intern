@@ -3,6 +3,11 @@ import BottomNavBar from './Main/BottomNavBar'
 import TopNavBar from './Main/TopNavBar'
 
 class Settings extends Component {
+
+    handleLogOut() {
+        localStorage.removeItem("token")
+    }
+
     render() {
         return (
             <div>
@@ -16,7 +21,7 @@ class Settings extends Component {
                                     Settings
                                 </h3>
                                 <div className="">
-                                    <a href="#"><u>LOGOUT</u></a>
+                                    <a href="/" onClick={this.handleLogOut}><u>LOGOUT</u></a>
                                     <div className="d-flex mt-2">
                                         <p>Name: </p>
                                         <p className="mx-3"><u>Username</u></p>
