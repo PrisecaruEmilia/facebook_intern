@@ -2,15 +2,15 @@ import React, { Component } from 'react'
 
 class Post extends Component {
 
-    // constructor(props) {
-    //     super(props)
+    constructor(props) {
+        super(props)
     
-    //     this.state = {
-    //          likeColor: 'secondary'
-    //     }
-    //     this.handleLike = this.handleLike.bind(this);   
+        this.state = {
+             likeColor: 'secondary'
+        }
+        this.handleLike = this.handleLike.bind(this);   
 
-    // }
+    }
 
     // handleLike() {
     //     if(this.state.likeColor == 'secondary') {
@@ -26,12 +26,26 @@ class Post extends Component {
     // }
 
     handleLike = () => {
-         this.props.onLike();         
-        // console.log(this.props.id)   
+        this.props.onLike(this.props.id)        
+        console.log(this.props.onLike(this.props.id))   
+        if(this.props.onLike(this.props.id) === "primary") {
+            this.setState({
+                likeColor: 'primary'
+            })
+        } else {
+            this.setState({
+                likeColor: 'secondary'
+            })
+        }
     }
+
     
     render() {
+
         return (
+            // <div className="border border-aqua">
+            //     {this.props.title}
+            // </div>
             <div className="bg-light mb-3 py-3 px-2 card">
                 <div className="card-body">
                     <h6>
@@ -46,7 +60,9 @@ class Post extends Component {
                     <div className="col-sm-6 text-center">
                         {/* <button onClick={this.handleLike} className={`btn likeButton text-${this.state.likeColor}`}><i className="far fa-thumbs-up mr-1"></i>
  Imi place</button> */}
-                        <button onClick={this.handleLike} className={`btn likeButton text-${this.props.like}`}><i className="far fa-thumbs-up mr-1"></i>
+                        {/* <button onClick={this.handleLike} className={`btn likeButton text-${this.props.like}`}><i className="far fa-thumbs-up mr-1"></i>
+                        Imi place</button> */}
+                        <button onClick={this.handleLike} className={`btn likeButton text-${this.state.likeColor}`}><i className="far fa-thumbs-up mr-1"></i>
                         Imi place</button>
                     </div>
                     <div className="col-sm-6 text-center">

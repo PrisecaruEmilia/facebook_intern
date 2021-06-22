@@ -6,7 +6,8 @@ class PostList extends Component {
     render() {
     const posts = this.props.posts;
     const listItems = posts.map((data) =>
-    <Post key={data.text_content.toString()} id={data.id} author={data.author} time={data.time} content={data.text_content} picture={data.picture} like={data.like} onLike={this.props.onLike}/>
+    <Post key={data.content.toString()} id={data._id} author={data.author} time={data.time} content={data.content} picture={data.picture} like={data.like} onLike={this.props.onLike}/>
+    // <Post id={data._id} content={data.content} title={data.title}/>
   );
         return (
             <div>

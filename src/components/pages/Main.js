@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React, { Component } from 'react'
 import BottomNavBar from './Main/BottomNavBar';
 import PostList from './Main/PostList';
@@ -48,28 +49,9 @@ const sample = [
 
 const sampleTest = [
     {
-        "id": 1,
-        "author": "Catalin Ciobanu",
-        "time": "2 ore",
-        "text_content": "Web/Js internship",
-        "picture": "./images/post-1.jpg",
-        "like": false
-    },
-    {
-        "id": 2,
-        "author": "Avram Rebeca",
-        "time": "8 ore",
-        "text_content": "Have you heard the news?",
-        "picture": "./images/post-2.png",
-        "like": false
-    },
-    {
-        "id": 3,
-        "author": "Ioana Bala",
-        "time": "3 ore",
-        "text_content": "What a beautifull day :)",
-        "picture": "./images/post-3.jpg",
-        "like": false
+        "_id": 1,
+        "content": "Web/Js internship",
+        "title": "First post"
     }
 ]
 
@@ -78,23 +60,48 @@ class Main extends Component {
         super(props)
     
         this.state = {
-             posts: sample,
+             posts: [],
              value: '',
+
         }
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);   
         this.onLike=this.onLike.bind(this);
     }
 
-    // componentDidMount = () => {
-    //     if(document.location.pathname === '/') {
-    //         localStorage.setItem("localData", sampleTest)
-    //     }
-    //     console.log(localStorage.getItem('localData'))
-    //     this.setState({
-    //         posts: localStorage.getItem('localData')
-    //     })
-    // }
+    componentDidMount = () => {
+        
+        // const posts = async()=>{
+        //     try{
+        //         const resp = await axios.get("https://facebook-intern.herokuapp.com/posts")
+        //         console.log(resp.data);
+        //     } catch (err) {
+        //         console.log(err);
+        //     }
+        // }
+        // this.setState({
+        //     posts: sampleTest
+        // })
+
+        // console.log(posts);
+        this.getPosts()
+    }
+
+
+    getPosts = async () => {
+        let resp = await axios.get("https://facebook-intern.herokuapp.com/posts")
+        this.setState({ posts: resp.data })
+    };
+
+    // getPosts = () => {
+    //     axios
+    //         .get("https://facebook-intern.herokuapp.com/posts")
+    //         .then(data => this.setState({ posts: data.data }))
+    //         .catch(err => {
+    //             console.log(err);
+    //             return null;
+    //         });
+    //  };
 
     // componentDidUpdate() {
     //     console.log(localStorage.getItem('localData'))
@@ -108,14 +115,28 @@ class Main extends Component {
         this.setState({value: event.target.value});
     }
 
+    postPosts = async () => {
+        const temp = {
+            "author": "Microsoft CEE",
+            "time": "13 ore",
+            "content": this.state.value,
+            "picture": "./images/post-5.jpg",
+            "like": false
+        }
+        let resp = await axios.post("https://facebook-intern.herokuapp.com/post", temp)
+        this.setState({
+            posts: [resp.data, ...this.state.posts]
+        });
+    };
+
     handleSubmit(event) {
         event.preventDefault()
         console.log(this.state.value)
         const temp = {
-                "id": this.state.posts.length + 1,
+                "_id": this.state.posts.length + 1,
                 "author": "Microsoft CEE",
                 "time": "13 ore",
-                "text_content": this.state.value,
+                "content": this.state.value,
                 "picture": "./images/post-5.jpg",
                 "like": false
         }
@@ -128,9 +149,11 @@ class Main extends Component {
         //     };
         //   });
 
-        this.setState({
-            posts: [temp, ...this.state.posts]
-        });
+        // this.setState({
+        //     posts: [temp, ...this.state.posts]
+        // });
+
+        this.postPosts()
 
         this.setState({
             value: ''
@@ -149,9 +172,18 @@ class Main extends Component {
         // })
     }
 
-    onLike() {
+    onLike(id) {
         // alert(this.state.posts.like);
-        console.log(this.state.posts[0].author);
+        // console.log(this.state.posts[0].author);
+        if(this.state.posts.find(x => x._id === id).like === false){
+            this.state.posts.find(x => x._id === id).like = true
+            return "primary"
+        } else {
+            this.state.posts.find(x => x._id === id).like = false
+            return "secondary"
+        }
+        // console.log(this.state.posts.find(x => x._id === id).like);
+
     }
     
     render() {
