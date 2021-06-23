@@ -67,6 +67,8 @@ class Main extends Component {
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);   
         this.onLike=this.onLike.bind(this);
+        this.onDelete=this.onDelete.bind(this);
+
     }
 
     componentDidMount = () => {
@@ -185,6 +187,27 @@ class Main extends Component {
         // console.log(this.state.posts.find(x => x._id === id).like);
 
     }
+
+    deletePosts = async (id) => {
+        let resp = await axios.delete(`https://facebook-intern.herokuapp.com/post/${id}`)
+        // this.setState({
+        //     posts: [resp.data]
+        // });
+        const newPosts = [...this.state.posts];
+        const thisId = this.state.posts.find(x => x._id === id)._id
+        const index = this.state.posts.indexOf(thisId)
+        newPosts.splice(index, 1);
+
+        this.setState({
+            posts: newPosts
+        })
+        // console.log(id)
+    };
+
+    onDelete(id) {
+        const thisId = this.state.posts.find(x => x._id === id)._id
+        this.deletePosts(thisId)
+    }
     
     render() {
         
@@ -211,7 +234,7 @@ class Main extends Component {
                                 </div>
                             </div>
                             {/* <PostList posts={sample} /> */}
-                            <PostList posts={this.state.posts}  onLike={this.onLike}/>
+                            <PostList posts={this.state.posts}  onLike={this.onLike} onDelete={this.onDelete}/>
                         </div>
                         <div className="d-none d-md-inline col-12 col-md-3">text</div>
                     </div>

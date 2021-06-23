@@ -8,7 +8,9 @@ class Post extends Component {
         this.state = {
              likeColor: 'secondary'
         }
-        this.handleLike = this.handleLike.bind(this);   
+        this.handleLike = this.handleLike.bind(this);  
+        this.handleDelete = this.handleDelete.bind(this);   
+
 
     }
 
@@ -25,7 +27,7 @@ class Post extends Component {
         
     // }
 
-    handleLike = () => {
+    handleLike() {
         this.props.onLike(this.props.id)        
         console.log(this.props.onLike(this.props.id))   
         if(this.props.onLike(this.props.id) === "primary") {
@@ -39,6 +41,11 @@ class Post extends Component {
         }
     }
 
+    handleDelete() {
+        this.props.onDelete(this.props.id) 
+        // console.log("hey");
+    }
+
     
     render() {
 
@@ -48,10 +55,17 @@ class Post extends Component {
             // </div>
             <div className="bg-light mb-3 py-3 px-2 card">
                 <div className="card-body">
-                    <h6>
-                        <img className="postAuthor border rounded-circle mr-2" src={this.props.picture} alt={this.props.content}></img>
-                        {this.props.author}
-                    </h6>
+                    <div className="row">
+                        <div className="col-6">
+                            <h6>
+                                <img className="postAuthor border rounded-circle mr-2" src={this.props.picture} alt={this.props.content}></img>
+                                {this.props.author}
+                            </h6>
+                        </div>
+                        <div className="col-6 d-flex flex-row-reverse">
+                            <button onClick={this.handleDelete} type="button" className="btn btn-danger"><i className="fas fa-trash-alt"></i></button>
+                        </div>
+                    </div>
                     <p>{this.props.time}</p>
                     <p>{this.props.content}</p>
                 </div>
